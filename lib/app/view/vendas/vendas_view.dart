@@ -1,11 +1,12 @@
-import 'package:farmacia/app/view/tela1/tela1_controller.dart';
+
+import 'package:farmacia/app/view/vendas/vendas_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-class Tela1View extends StatelessWidget {
+class VendasView extends StatelessWidget {
 
-  Tela1Controller tela1controller = Get.find();
+  VendasController vendascontroller = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -34,12 +35,11 @@ class Tela1View extends StatelessWidget {
                         TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                         textAlign: TextAlign.right,
                       ),
-                      subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
                     ),
                     Obx(() => Padding(
                         padding: const EdgeInsets.only(top: 20),
                         child: Text(
-                         "R\$ " + tela1controller.resultado.value,
+                         "R\$ " + vendascontroller.resultado.value,
                           style: const TextStyle(fontSize: 25),
                         ),
                       ),
@@ -68,7 +68,7 @@ class Tela1View extends StatelessWidget {
                     Obx(() => Padding(
                         padding: const EdgeInsets.only(top: 20),
                         child: Text(
-                           "R\$ " + tela1controller.resultadoMesAtual.value,
+                           "R\$ " + vendascontroller.resultadoMesAtual.value,
                           style: const TextStyle(fontSize: 25),
                         ),
                       ),
@@ -97,7 +97,7 @@ class Tela1View extends StatelessWidget {
                     Obx(() => Padding(
                         padding: const EdgeInsets.only(top: 20),
                         child: Text(
-                           "R\$ " + tela1controller.resultadoPeriodo.value,
+                           "R\$ " + vendascontroller.resultadoPeriodo.value,
                           style: const TextStyle(fontSize: 25),
                         ),
                       ),
@@ -114,12 +114,12 @@ class Tela1View extends StatelessWidget {
                       icon: const Icon(Icons.calendar_today_outlined),
                       tooltip: 'Tap to open date picker',
                       onPressed: () {
-                       tela1controller.selectDate(context);
+                       vendascontroller.selectDate(context);
                       },
                     ),
                   ),
                   Obx(() =>Text(
-                      DateFormat("'Data Inicial :' dd/MM/yyyy").format(tela1controller.currentDate.value),
+                      DateFormat("'Data Inicial :' dd/MM/yyyy").format(vendascontroller.currentDate.value),
                       style: const TextStyle(
                         fontSize: 20,
                       ),
@@ -136,12 +136,12 @@ class Tela1View extends StatelessWidget {
                       icon: const Icon(Icons.calendar_today_outlined),
                       tooltip: 'Tap to open date picker',
                       onPressed: () {
-                        tela1controller.selectDate2(context);
+                        vendascontroller.selectDate2(context);
                       },
                     ),
                   ),
                   Obx(() => Text(
-                      DateFormat("'Data Inicial :' dd/MM/yyyy").format(tela1controller.currentDate2.value),
+                      DateFormat("'Data Inicial :' dd/MM/yyyy").format(vendascontroller.currentDate2.value),
                       style: const TextStyle(
                         fontSize: 20,
                       ),
@@ -164,9 +164,9 @@ class Tela1View extends StatelessWidget {
                         minimumSize: const Size(0, 45),
                       ),
                       onPressed: () {
-                         tela1controller.recuperarVendaDia();
-                         tela1controller.recupearVendaMes();
-                         tela1controller.recupearVendaPeriodo();
+                         vendascontroller.recuperarVendaDia();
+                         vendascontroller.recupearVendaMes();
+                         vendascontroller.recupearVendaPeriodo();
                       }),
                 ),
             ],

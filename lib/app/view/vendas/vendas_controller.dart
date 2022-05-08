@@ -1,11 +1,9 @@
-import 'dart:convert';
-
+import 'package:farmacia/app/repositories/vendas_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:http/http.dart' as http;
 
-class Tela1Controller extends GetxController  {
+class VendasController extends GetxController  {
 
   Rx<DateTime> currentDate = DateTime.now().obs;
   Rx<DateTime> currentDate2 = DateTime.now().obs;
@@ -15,6 +13,8 @@ class Tela1Controller extends GetxController  {
   RxString resultado = "".obs;
   RxString resultadoMesAtual = "".obs;
   RxString resultadoPeriodo = "".obs;
+
+  var result;
 
   Future<void> selectDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
@@ -47,47 +47,28 @@ class Tela1Controller extends GetxController  {
 
   }
 
-
-
   //Método responsável por trazer o valor da venda do dia via API
   recuperarVendaDia() async {
-    print(DateFormat('yyyy/MM/dd').format(DateTime.now()));
-    String url =
-        "http://187.62.177.219:8181/FarmaciaService/api/totalByData?data=2022/05/05";
-    http.Response response;
-    response = await http.get(Uri.parse(url));
-    Map<String, dynamic> retorno = json.decode(response.body);
-    double vendaDia = retorno["total"];
-
-      print(vendaDia);
-      resultado.value = "${vendaDia}";
-
+      result = await VendasRepository.recuperarVendaDia(DateFormat('yyyy/MM/dd').format(DateTime.now()));
+      resultado.value = result;
   }
 
   //Método responsável por trazer o valor da venda do mes atual via API
   recupearVendaMes() async {
-    String urlMesAtual =
-        "http://187.62.177.219:8181/FarmaciaService/api/totalByPeriodo?inicio=${DateFormat('yyyy/MM/dd').format(DateTime(currentDate.value.year, currentDate.value.month, 1))}&fim=${DateFormat('yyyy/MM/dd').format(DateTime(currentDate.value.year, currentDate.value.month + 1, 0))}";
-    http.Response response;
-    response = await http.get(Uri.parse(urlMesAtual));
-    Map<String, dynamic> retorno = json.decode(response.body);
-    double vendaMes = retorno["total"];
-
-      resultadoMesAtual.value = "${vendaMes}";
-
+     result = await VendasRepository.recupearVendaMes(
+         DateFormat('yyyy/MM/dd').format(DateTime(currentDate.value.year, currentDate.value.month, 1)),
+         DateFormat('yyyy/MM/dd').format(DateTime(currentDate2.value.year, currentDate2.value.month + 1, 0))
+     );
+     resultadoMesAtual.value = result;
   }
 
   //Método responsável por trazer o valor da venda do periodo via API
   recupearVendaPeriodo() async {
-    String urlPeriodo =
-        "http://187.62.177.219:8181/FarmaciaService/api/totalByPeriodo?inicio=${DateFormat('yyyy/MM/dd').format(currentDate.value)}&fim=${DateFormat('yyyy/MM/dd').format(currentDate2.value)}";
-    http.Response response;
-    response = await http.get(Uri.parse(urlPeriodo));
-    Map<String, dynamic> retorno = json.decode(response.body);
-    double vendaPeriodo = retorno["total"];
-
-    resultadoPeriodo.value = "${vendaPeriodo}";
-
+     result = await VendasRepository.recupearVendaPeriodo(
+         DateFormat('yyyy/MM/dd').format(currentDate.value),
+         DateFormat('yyyy/MM/dd').format(currentDate2.value)
+     );
+     resultadoPeriodo.value = result;
   }
 
 }
